@@ -7,7 +7,7 @@ host : 'localhost',
 user : 'root',
 password : '',
 charset: 'utf8',
-database : 'travel'
+database : 'skillplus'
 });
 
 

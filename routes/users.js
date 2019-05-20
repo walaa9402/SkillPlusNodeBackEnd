@@ -35,7 +35,7 @@ router.post('/login',function(req,res){
 	var email=req.body.email
 	var password= req.body.password
 	var values = [email,password];
-	var sql = "SELECT * FROM user where  email =? and password =?   ";
+	var sql = "SELECT * FROM user where user_email =? and user_password =?   ";
 	pool.query(sql,values,function(err,result){
 				if(err){
 			res.json({			
@@ -48,10 +48,10 @@ router.post('/login',function(req,res){
 			if (result.length > 0) {
 			console.log("hash not verified : " +result[0].password);
 			var o ={};
-				o.id = result[0].uid ;
-				o.name = result[0].name;
+				o.id = result[0].user_id ;
+				o.name = result[0].user_name;
 				o.user_phone = result[0].user_phone;
-				o.email = result[0].email;
+				o.email = result[0].user_email;
 			res.json({		
 				status : true,
 				data : o,
