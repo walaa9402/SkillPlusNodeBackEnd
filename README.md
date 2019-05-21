@@ -18,3 +18,13 @@ variables in body : none
 usage : for testing
 return : all users
 ********************************************
+
+********************************************
+/******** category APIs ********/
+----------------------------------------
+1] /category/all
+method : get
+variables in body : none
+usage : for home screen
+return : all categories with its info
+********************************************

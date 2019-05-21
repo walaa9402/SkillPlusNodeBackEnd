@@ -1,12 +1,8 @@
 var express = require('express');
 var router = express.Router();
-//var token = require('../config/token');
-var pool = require('../config/config');
-/* var hash = require('password-hash');
 
-var gcm = require('node-gcm');
- */
-/* GET users listing. */
+var pool = require('../config/config');
+
 router.get('/', function(req, res, next) {
   res.send('respond with a resource in users');
 });
@@ -23,7 +19,7 @@ router.get('/all',function(req,res){
 			
 			res.json({		
 				status : true,
-				data : result[0],
+				data : result,
 				message : "done"			
 			});		
 			 
