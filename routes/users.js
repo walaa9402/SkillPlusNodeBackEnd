@@ -23,7 +23,7 @@ router.get('/all',function(req,res){
 			
 			res.json({		
 				status : true,
-				data : result,
+				data : result[0],
 				message : "done"			
 			});		
 			 
@@ -35,7 +35,7 @@ router.post('/login',function(req,res){
 	var email=req.body.email
 	var password= req.body.password
 	var values = [email,password];
-	var sql = "SELECT * FROM user where user_email =? and user_password =?   ";
+	var sql = "SELECT user.* ,(SELECT AVG(value) FROM rate where rate.user_id=user.user_id and user_type='skill') as skill_rate ,(SELECT AVG(value) FROM rate where rate.user_id=user.user_id and user_type='service') as service_rate FROM user where user_email=? and user_password=?";
 	pool.query(sql,values,function(err,result){
 				if(err){
 			res.json({			
@@ -44,14 +44,15 @@ router.post('/login',function(req,res){
 				message : err				
 			});			
 		}else{
-			console.log("hash not verified : " +result.length == 0);
 			if (result.length > 0) {
-			console.log("hash not verified : " +result[0].password);
 			var o ={};
 				o.id = result[0].user_id ;
 				o.name = result[0].user_name;
 				o.user_phone = result[0].user_phone;
 				o.email = result[0].user_email;
+				o.password = result[0].user_password;
+				o.skillrate = result[0].skill_rate;
+				o.servicerate = result[0].service_rate;
 			res.json({		
 				status : true,
 				data : o,
@@ -61,7 +62,7 @@ router.post('/login',function(req,res){
 				res.json({			
 				status : false,
 				data : {},
-				message : 'Authentication failed. Wrong Details.',			
+				message : "invalid email or password"			
 			});	
 			}
 		}		
@@ -69,13 +70,12 @@ router.post('/login',function(req,res){
 	});
 });
 router.post('/signup',function(req,res){
-	var name=req.body.name
+	var user_name=req.body.name
 	var email=req.body.email
 	var password= req.body.password
-	var user_phone= req.body.user_phone
-	var city= req.body.city
-	var values = [name,email,password,user_phone, city];
-	var sql = "insert into user (name, email,password,user_phone,city) values(?,?,?,?,?) ";
+	var pic= req.body.pic
+	var values = [user_name,email,password,pic];
+	var sql = "insert into user (user_name,user_email,user_password,user_pic) values(?,?,?,?)";
 	pool.query(sql,values,function(err,result){
 				if(err){
 			res.json({			
@@ -84,19 +84,21 @@ router.post('/signup',function(req,res){
 				message : err				
 			});			
 		}else{
-			var sql = "SELECT * FROM user where  email =? and password =?   ";
-	var sqlValues = [email,password];
-	pool.query(sql,sqlValues,function(err,result){
-			var o ={};
-				o.id = result[0].uid ;
-				o.name = result[0].name;
-				o.user_phone = result[0].user_phone;
-				o.email = result[0].email;
-				o.city = result[0].city;
+			var sql = "SELECT user.* ,(SELECT AVG(value) FROM rate where rate.user_id=user.user_id and user_type='skill') as skill_rate ,(SELECT AVG(value) FROM rate where rate.user_id=user.user_id and user_type='service') as service_rate FROM user where user_email=? and user_password=?";
+			var sqlValues = [email,password];
+			pool.query(sql,sqlValues,function(err,result){
+			var user ={};
+				user.id = result[0].user_id ;
+				user.name = result[0].user_name;
+				user.email = result[0].user_email;
+				user.password = result[0].user_password;
+				user.city = result[0].user_pic;
+				user.skillrate = result[0].skill_rate;
+				user.servicerate = result[0].service_rate;
 
 			res.json({		
 				status : true,
-				data : o,
+				data : user,
 				message : "done"			
 			});
 			});
