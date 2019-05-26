@@ -28,3 +28,21 @@ variables in body : none
 usage : for home screen
 return : all categories with its info
 ********************************************
+2] /category
+method : get
+variables in query : id
+usage : for specific category
+return : all skills and need for this category
+********************************************
+3] /category/name
+method : get
+variables in query : none
+usage : for dropdown in adding skill or need from sidemenu
+return : all skills and need for this category
+********************************************
+3] /category/add/skill
+method : get
+variables in query : name, desc, session_no, price, duration, extra, user_id, cat_id, schedule (array)
+usage : add skill from timeline or sidemenu
+return : success message
+********************************************

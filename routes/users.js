@@ -12,14 +12,14 @@ router.get('/all',function(req,res){
 				if(err){
 			res.json({			
 				status : false,
-				data : null,
+				allUsers : null,
 				message : err				
 			});			
 		}else{
 			
 			res.json({		
 				status : true,
-				data : result,
+				allUsers : result,
 				message : "done"			
 			});		
 			 
@@ -31,12 +31,13 @@ router.post('/login',function(req,res){
 	var email=req.body.email
 	var password= req.body.password
 	var values = [email,password];
-	var sql = "SELECT user.* ,(SELECT AVG(value) FROM rate where rate.user_id=user.user_id and user_type='skill') as skill_rate ,(SELECT AVG(value) FROM rate where rate.user_id=user.user_id and user_type='service') as service_rate FROM user where user_email=? and user_password=?";
+	
+	var sql = "SELECT user.* ,(SELECT AVG((SELECT AVG(value) FROM rate where skill_id=s.skill_id)) FROM skill s where user_id=user.user_id) as rates FROM user where user_email=? and user_password=?";
 	pool.query(sql,values,function(err,result){
 				if(err){
 			res.json({			
 				status : false,
-				data : {},
+				login : {},
 				message : err				
 			});			
 		}else{
@@ -47,17 +48,19 @@ router.post('/login',function(req,res){
 				o.user_phone = result[0].user_phone;
 				o.email = result[0].user_email;
 				o.password = result[0].user_password;
-				o.skillrate = result[0].skill_rate;
-				o.servicerate = result[0].service_rate;
+				o.rate = result[0].rates;
+				if(!o.rate){
+					o.rate=-1
+				}
 			res.json({		
 				status : true,
-				data : o,
+				userlogined : o,
 				message : "done"			
 			});		
 			}else{
 				res.json({			
 				status : false,
-				data : {},
+				userlogined : {},
 				message : "invalid email or password"			
 			});	
 			}
@@ -76,7 +79,7 @@ router.post('/signup',function(req,res){
 				if(err){
 			res.json({			
 				status : false,
-				data : null,
+				signup : null,
 				message : err				
 			});			
 		}else{
@@ -94,7 +97,7 @@ router.post('/signup',function(req,res){
 
 			res.json({		
 				status : true,
-				data : user,
+				userdata : user,
 				message : "done"			
 			});
 			});
