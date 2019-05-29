@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 26, 2019 at 05:13 PM
+-- Generation Time: May 29, 2019 at 10:42 AM
 -- Server version: 10.1.29-MariaDB
 -- PHP Version: 7.1.12
 
@@ -72,7 +72,7 @@ CREATE TABLE `needs` (
   `need_photo` varchar(100) NOT NULL,
   `cat_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `adding_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `adding_date` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -80,7 +80,7 @@ CREATE TABLE `needs` (
 --
 
 INSERT INTO `needs` (`need_id`, `need_name`, `need_desc`, `need_photo`, `cat_id`, `user_id`, `adding_date`) VALUES
-(1, 'learn painting', 'plaaaaaaaaaneed', 'path', 2, 2, '2019-05-26 12:56:24');
+(1, 'learn painting', 'plaaaaaaaaaneed', 'path', 2, 2, 20190526145624);
 
 -- --------------------------------------------------------
 
@@ -92,7 +92,7 @@ CREATE TABLE `need_schedule` (
   `id` int(11) NOT NULL,
   `need_id` int(11) NOT NULL,
   `form_id` int(11) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `date` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -133,7 +133,7 @@ CREATE TABLE `skill` (
   `extra_fees` float NOT NULL,
   `user_id` int(11) NOT NULL,
   `cat_id` int(11) NOT NULL,
-  `adding_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `adding_date` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -141,8 +141,8 @@ CREATE TABLE `skill` (
 --
 
 INSERT INTO `skill` (`skill_id`, `skill_name`, `skill_desc`, `session_no`, `skill_price`, `duration`, `extra_fees`, `user_id`, `cat_id`, `adding_date`) VALUES
-(1, 'painting', 'plaaaaaaaaaaaaaaaaaaa', 3, 500, 2.5, 40, 1, 2, '2019-05-26 12:24:16'),
-(2, 'gaming', 'gaaaaaaaaaaaaaaaaaaaaaaame', 5, 1000, 4, 150, 1, 1, '2019-05-26 13:57:27');
+(1, 'painting', 'plaaaaaaaaaaaaaaaaaaa', 3, 500, 2.5, 40, 1, 2, 20190526142416),
+(2, 'gaming', 'gaaaaaaaaaaaaaaaaaaaaaaame', 5, 1000, 4, 150, 1, 1, 20190526155727);
 
 -- --------------------------------------------------------
 
@@ -153,7 +153,7 @@ INSERT INTO `skill` (`skill_id`, `skill_name`, `skill_desc`, `session_no`, `skil
 CREATE TABLE `skill_schedule` (
   `id` int(11) NOT NULL,
   `skill_id` int(11) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `date` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -161,10 +161,10 @@ CREATE TABLE `skill_schedule` (
 --
 
 INSERT INTO `skill_schedule` (`id`, `skill_id`, `date`) VALUES
-(1, 1, '2019-05-28 07:30:13'),
-(2, 1, '2019-05-30 11:29:26'),
-(3, 2, '2019-05-27 08:00:00'),
-(4, 2, '2019-05-31 08:25:15');
+(1, 1, 20190528093013),
+(2, 1, 20190530132926),
+(3, 2, 20190527100000),
+(4, 2, 20190531102515);
 
 -- --------------------------------------------------------
 
