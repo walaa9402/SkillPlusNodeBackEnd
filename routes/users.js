@@ -32,7 +32,7 @@ router.post('/login',function(req,res){
 	var password= req.body.password
 	var values = [email,password];
 	
-	var sql = "SELECT user.* ,(SELECT AVG((SELECT AVG(value) FROM rate where skill_id=s.skill_id)) FROM skill s where user_id=user.user_id) as rates FROM user where user_email=? and user_password=?";
+	var sql = "SELECT user.* ,(SELECT COUNT(skill_id) from skill where user_id=user.user_id) as skills,(SELECT AVG((SELECT AVG(value) FROM rate where skill_id=s.skill_id)) FROM skill s where user_id=user.user_id) as rates FROM user where user_email=? and user_password=?";
 	pool.query(sql,values,function(err,result){
 				if(err){
 			res.json({			
@@ -52,6 +52,9 @@ router.post('/login',function(req,res){
 				o.rate = result[0].rates;
 				if(!o.rate){
 					o.rate=0
+				}
+				if(result[0].skills==0){
+					o.rate=-1
 				}
 			res.json({		
 				status : true,
@@ -84,7 +87,7 @@ router.post('/signup',function(req,res){
 				message : err				
 			});			
 		}else{
-			var sql = "SELECT user.* ,(SELECT AVG((SELECT AVG(value) FROM rate where skill_id=s.skill_id)) FROM skill s where user_id=user.user_id) as rates FROM user where user_id=?";
+			var sql = "SELECT user.*  FROM user where user_id=?";
 			pool.query(sql,[result["insertId"]],function(err,result){
 						if(err){
 					res.json({			
@@ -100,11 +103,8 @@ router.post('/signup',function(req,res){
 						o.user_phone = result[0].user_phone;
 						o.email = result[0].user_email;
 						o.password = result[0].user_password;
-						o.rate = result[0].rates;
+						o.rate = -1;
 						o.pic = result[0].user_pic;
-						if(!o.rate){
-							o.rate=0
-						}
 					res.json({		
 						status : true,
 						userlogined : o,
