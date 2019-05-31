@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-
 var pool = require('../config/config');
 
 router.get('/', function(req, res, next) {

@@ -116,10 +116,11 @@ router.get('/add/skill',function(req,res){
 				message : err				
 			});			
 		}else{
-			var id = result.skill_id
-			var sql = "insert into skill (skill_id,date) values ?";
+			var id = result["insertId"]
+			var date = new Date().getTime()
+			var sql = "insert into skill_schedule (skill_id,date,last_updated) values ?";
 			var values = schedule.map(function(element){
-				return [id,element]
+				return [id,element,date]
 			})
 			pool.query(sql,values,function(err,result){
 				if(err){
@@ -185,8 +186,8 @@ router.get('/favorite',function(req,res){
 		}else{
 			if(result.length>0){
 				var result = result.map(function(element){
-					if(element["paths"]){
-						element["paths"]=element["paths"].split(",")
+					if(element["schedule"]){
+						element["schedule"]=element["schedule"].split(",")
 					}
 					if(!element["rate"]){
 						element["rate"]=0
