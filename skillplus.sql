@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 31, 2019 at 06:44 PM
+-- Generation Time: Jun 01, 2019 at 12:05 AM
 -- Server version: 10.1.29-MariaDB
 -- PHP Version: 7.1.12
 
@@ -73,6 +73,13 @@ CREATE TABLE `forms` (
   `flag` int(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `forms`
+--
+
+INSERT INTO `forms` (`form_id`, `session_no`, `duration`, `need_price`, `extra_fees`, `need_id`, `last_updated`, `flag`) VALUES
+(9, 4, 3.5, 150, 33.5, 1, 1559335338089, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -127,6 +134,15 @@ CREATE TABLE `need_schedule` (
   `form_id` int(11) NOT NULL,
   `date` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `need_schedule`
+--
+
+INSERT INTO `need_schedule` (`id`, `need_id`, `form_id`, `date`) VALUES
+(1, 1, 9, 1559320952275),
+(2, 1, 9, 1559320952275),
+(3, 1, 9, 1559320952275);
 
 -- --------------------------------------------------------
 
@@ -264,8 +280,8 @@ ALTER TABLE `needs`
 --
 ALTER TABLE `need_schedule`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `need_id` (`need_id`,`form_id`),
-  ADD KEY `form_id` (`form_id`);
+  ADD KEY `form_id` (`form_id`),
+  ADD KEY `need_id` (`need_id`);
 
 --
 -- Indexes for table `rate`
@@ -316,7 +332,7 @@ ALTER TABLE `favorite`
 -- AUTO_INCREMENT for table `forms`
 --
 ALTER TABLE `forms`
-  MODIFY `form_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `form_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `needs`
@@ -328,7 +344,7 @@ ALTER TABLE `needs`
 -- AUTO_INCREMENT for table `need_schedule`
 --
 ALTER TABLE `need_schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `rate`

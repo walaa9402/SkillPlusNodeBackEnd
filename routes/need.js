@@ -51,6 +51,47 @@ router.post('/form/add',function(req,res){
 	});
 });
 router.post('/form/approve',function(req,res){
-    var 
+    var form = req.body.form_id
+    var need = req.body.need_id
+    var schedule = req.body.schedule
+    var date = new Date().getTime()
+    var sql = "UPDATE forms SET last_updated=?,flag=1 where form_id=?"
+    pool.query(sql,[date,form],function(err,result1){
+        if(err){
+            res.json({
+                status : false,
+                data : null,
+                message : err
+            })
+        } else {
+            var sql2 = "DELETE FROM forms WHERE need_id=? and flag=0"
+           pool.query(sql2,[need],function(err,result2){
+                if(err){
+                    res.json({
+                        status : false,
+                        data : null,
+                        message : err
+                    })
+                } else {
+                    var sql3 = "DELETE FROM need_schedule WHERE need_id=? and NOT IN (?)"
+                    pool.query(sql3,[need_id,schedule],function(err,result3){
+                        if(err){
+                            res.json({
+                                status : false,
+                                data : null,
+                                message : err
+                            })
+                        } else {
+                            res.json({
+                                status: true,
+                                data : {result1,result2,result3},
+                                message : "done"
+                            })
+                        }
+                    })
+                }
+           })
+        }
+    })
 });
 module.exports = router;
