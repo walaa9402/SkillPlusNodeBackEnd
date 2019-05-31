@@ -56,10 +56,10 @@ router.post('/login',function(req,res){
 				if(result[0].skills==0){
 					o.rate=-1
 				}
-			res.json({		
-				status : true,
-				userlogined : o,
-				message : "done"			
+				res.json({		
+					status : true,
+					userlogined : o,
+					message : "done"			
 			});		
 			}else{
 				res.json({			

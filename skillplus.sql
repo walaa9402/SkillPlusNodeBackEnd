@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2019 at 10:42 AM
+-- Generation Time: May 31, 2019 at 06:44 PM
 -- Server version: 10.1.29-MariaDB
 -- PHP Version: 7.1.12
 
@@ -47,6 +47,18 @@ INSERT INTO `category` (`cat_id`, `cat_name`, `cat_description`, `cat_photo`) VA
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `favorite`
+--
+
+CREATE TABLE `favorite` (
+  `fav_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `skill_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `forms`
 --
 
@@ -56,8 +68,29 @@ CREATE TABLE `forms` (
   `duration` float NOT NULL,
   `need_price` float NOT NULL,
   `extra_fees` float NOT NULL,
-  `need_id` int(11) NOT NULL
+  `need_id` int(11) NOT NULL,
+  `last_updated` bigint(20) NOT NULL,
+  `flag` int(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `learner`
+--
+
+CREATE TABLE `learner` (
+  `skill_id` int(11) NOT NULL,
+  `learner_id` int(11) NOT NULL,
+  `sessions` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `learner`
+--
+
+INSERT INTO `learner` (`skill_id`, `learner_id`, `sessions`) VALUES
+(1, 8, 0);
 
 -- --------------------------------------------------------
 
@@ -107,16 +140,6 @@ CREATE TABLE `rate` (
   `skill_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `rate`
---
-
-INSERT INTO `rate` (`rate_id`, `value`, `skill_id`) VALUES
-(5, 5, 1),
-(6, 4, 1),
-(7, 4, 2),
-(8, 3, 2);
-
 -- --------------------------------------------------------
 
 --
@@ -129,6 +152,7 @@ CREATE TABLE `skill` (
   `skill_desc` varchar(1000) NOT NULL,
   `session_no` int(11) NOT NULL,
   `skill_price` float NOT NULL,
+  `photo_path` varchar(200) NOT NULL,
   `duration` float NOT NULL,
   `extra_fees` float NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -140,9 +164,9 @@ CREATE TABLE `skill` (
 -- Dumping data for table `skill`
 --
 
-INSERT INTO `skill` (`skill_id`, `skill_name`, `skill_desc`, `session_no`, `skill_price`, `duration`, `extra_fees`, `user_id`, `cat_id`, `adding_date`) VALUES
-(1, 'painting', 'plaaaaaaaaaaaaaaaaaaa', 3, 500, 2.5, 40, 1, 2, 20190526142416),
-(2, 'gaming', 'gaaaaaaaaaaaaaaaaaaaaaaame', 5, 1000, 4, 150, 1, 1, 20190526155727);
+INSERT INTO `skill` (`skill_id`, `skill_name`, `skill_desc`, `session_no`, `skill_price`, `photo_path`, `duration`, `extra_fees`, `user_id`, `cat_id`, `adding_date`) VALUES
+(1, 'painting', 'plaaaaaaaaaaaaaaaaaaa', 3, 500, 'path1', 2.5, 40, 1, 2, 20190526142416),
+(2, 'gaming', 'gaaaaaaaaaaaaaaaaaaaaaaame', 5, 1000, 'path2', 4, 150, 1, 1, 20190526155727);
 
 -- --------------------------------------------------------
 
@@ -153,18 +177,20 @@ INSERT INTO `skill` (`skill_id`, `skill_name`, `skill_desc`, `session_no`, `skil
 CREATE TABLE `skill_schedule` (
   `id` int(11) NOT NULL,
   `skill_id` int(11) NOT NULL,
-  `date` bigint(20) NOT NULL
+  `date` bigint(20) NOT NULL,
+  `learner_id` int(11) DEFAULT NULL,
+  `last_updated` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `skill_schedule`
 --
 
-INSERT INTO `skill_schedule` (`id`, `skill_id`, `date`) VALUES
-(1, 1, 20190528093013),
-(2, 1, 20190530132926),
-(3, 2, 20190527100000),
-(4, 2, 20190531102515);
+INSERT INTO `skill_schedule` (`id`, `skill_id`, `date`, `learner_id`, `last_updated`) VALUES
+(1, 1, 20190528093013, 8, 1559320952275),
+(2, 1, 20190530132926, 8, 1559320952275),
+(3, 2, 20190527100000, 0, 0),
+(4, 2, 20190531102515, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -186,7 +212,13 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`user_id`, `user_name`, `user_email`, `user_password`, `user_pic`) VALUES
 (1, 'walaa', 'walaa@gmail.com', 'walaa', 'userphotopath'),
-(2, 'donia', 'dodo@gmail.com', 'walaa', 'dfksjrfrjgfpath');
+(2, 'donia', 'dodo@gmail.com', 'walaa', 'dfksjrfrjgfpath'),
+(3, 'walaa', 'w@gmail.com', 'eeeeeee', 'path'),
+(5, 'walaa', 'ggggggw@gmail.com', 'eeeeeee', 'path'),
+(6, 'walaa', 'gggggsssgw@gmail.com', 'eeeeeee', 'path'),
+(7, 'walaa', '@gmail.com', 'eeeeeee', 'path'),
+(8, 'walaa', 'sherif@gmail.com', 'eeeeeee', 'path'),
+(9, 'rania', 'rania@gmail.com', 'eeeeeee', 'path');
 
 --
 -- Indexes for dumped tables
@@ -199,11 +231,25 @@ ALTER TABLE `category`
   ADD PRIMARY KEY (`cat_id`);
 
 --
+-- Indexes for table `favorite`
+--
+ALTER TABLE `favorite`
+  ADD PRIMARY KEY (`fav_id`);
+
+--
 -- Indexes for table `forms`
 --
 ALTER TABLE `forms`
   ADD PRIMARY KEY (`form_id`),
   ADD KEY `need_id` (`need_id`);
+
+--
+-- Indexes for table `learner`
+--
+ALTER TABLE `learner`
+  ADD PRIMARY KEY (`skill_id`,`learner_id`),
+  ADD KEY `skill_id` (`skill_id`),
+  ADD KEY `learner_id` (`learner_id`);
 
 --
 -- Indexes for table `needs`
@@ -261,6 +307,12 @@ ALTER TABLE `category`
   MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `favorite`
+--
+ALTER TABLE `favorite`
+  MODIFY `fav_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `forms`
 --
 ALTER TABLE `forms`
@@ -282,7 +334,7 @@ ALTER TABLE `need_schedule`
 -- AUTO_INCREMENT for table `rate`
 --
 ALTER TABLE `rate`
-  MODIFY `rate_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `rate_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `skill`
@@ -300,7 +352,7 @@ ALTER TABLE `skill_schedule`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
@@ -311,6 +363,13 @@ ALTER TABLE `user`
 --
 ALTER TABLE `forms`
   ADD CONSTRAINT `forms_ibfk_1` FOREIGN KEY (`need_id`) REFERENCES `needs` (`need_id`);
+
+--
+-- Constraints for table `learner`
+--
+ALTER TABLE `learner`
+  ADD CONSTRAINT `learner_ibfk_1` FOREIGN KEY (`skill_id`) REFERENCES `skill` (`skill_id`),
+  ADD CONSTRAINT `learner_ibfk_2` FOREIGN KEY (`learner_id`) REFERENCES `user` (`user_id`);
 
 --
 -- Constraints for table `needs`

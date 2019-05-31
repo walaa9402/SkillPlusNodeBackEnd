@@ -40,9 +40,27 @@ variables in query : none
 usage : for dropdown in adding skill or need from sidemenu
 return : all skills and need for this category
 ********************************************
-3] /category/add/skill
+4] /category/add/skill
 method : get
-variables in query : name, desc, session_no, price, duration, extra, user_id, cat_id, schedule (array)
+variables in query : name, desc, session_no, price, pic, duration, extra, user_id, cat_id, schedule (array)
 usage : add skill from timeline or sidemenu
 return : success message
+********************************************
+5] /category/add/need
+method : get
+variables in query : name, desc, pic, cat_id, user_id
+usage : add need from timeline or sidemenu
+return : success message
+********************************************
+5] /category/favorite
+method : get
+variables in query : user_id
+usage : in favorite
+return : all user favorite skills
+********************************************
+5] /category/favorite/update
+method : get
+variables in query : user_id,skill_id
+usage : add or remove from favorite
+return : status message
 ********************************************
