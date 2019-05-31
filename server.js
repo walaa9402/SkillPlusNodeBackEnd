@@ -19,11 +19,15 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var categoryRouter = require('./routes/category');
 var skillRouter = require('./routes/skill');
+var needRouter = require('./routes/need');
+var notificationRouter = require('./routes/notification');
 
 app.use('/', indexRouter);
 app.use('/users',usersRouter);
 app.use('/category',categoryRouter);
 app.use('/skill',skillRouter);
+app.use('/need',needRouter);
+app.use('/notification',notificationRouter);
 
 
 

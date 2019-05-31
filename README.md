@@ -52,15 +52,21 @@ variables in query : name, desc, pic, cat_id, user_id
 usage : add need from timeline or sidemenu
 return : success message
 ********************************************
-5] /category/favorite
+6] /category/favorite
 method : get
 variables in query : user_id
 usage : in favorite
 return : all user favorite skills
 ********************************************
-5] /category/favorite/update
+7] /category/favorite/update
 method : get
 variables in query : user_id,skill_id
 usage : add or remove from favorite
+return : status message
+********************************************
+8] /skill/apply
+method : post
+variables in body : learner,date,skill,schedule(array)
+usage : apply skill
 return : status message
 ********************************************
