@@ -25,11 +25,11 @@ router.post('/form/add',function(req,res){
 			});			
 		}else{
             var form_id = result["insertId"]
-            var sql = "INSERT INTO need_schedule values ?"
+            var sql = "INSERT INTO need_schedule(need_id,form_id,date) values ?"
             var values = schedule.map(function(element){
                 return [need,form_id,element]
             })
-			pool.query(sql,values,function(err,result){
+			pool.query(sql,[values],function(err,result){
                 if(err){
                     res.json({			
                         status : false,
@@ -51,6 +51,6 @@ router.post('/form/add',function(req,res){
 	});
 });
 router.post('/form/approve',function(req,res){
-
+    var 
 });
 module.exports = router;

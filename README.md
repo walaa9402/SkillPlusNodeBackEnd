@@ -73,7 +73,7 @@ return : status message
 9] /need/form/add
 method : post
 variables in body : sessions_no,duration,price,extra,need_id,schedule(array)
-usage : add form
+usage : add form with schedules
 return : status message
 ********************************************
 10] /need/form/approve

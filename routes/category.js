@@ -122,7 +122,7 @@ router.get('/add/skill',function(req,res){
 			var values = schedule.map(function(element){
 				return [id,element,date]
 			})
-			pool.query(sql,values,function(err,result){
+			pool.query(sql,[values],function(err,result){
 				if(err){
 					res.json({			
 						status : false,
