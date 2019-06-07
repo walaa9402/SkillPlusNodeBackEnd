@@ -72,7 +72,7 @@ return : status message
 ********************************************
 9] /need/form/add
 method : post
-variables in body : sessions_no,duration,price,extra,need_id,schedule(array)
+variables in body : sessions_no,duration,price,extra,need_id,schedule(array),user
 usage : add form with schedules
 return : status message
 ********************************************
@@ -81,4 +81,10 @@ method : post
 variables in body : sessions_no,duration,price,extra,need_id,schedule(array)
 usage : add form
 return : status message
+********************************************
+11] /notification
+method : post
+variables in body : user,date
+usage : notifications
+return : apply skill users & apply form users 
 ********************************************

@@ -12,10 +12,11 @@ router.post('/form/add',function(req,res){
     var price = req.body.price
     var extra = req.body.extra
     var need = req.body.need_id
+    var user = req.body.user
     var schedule = req.body.schedule
     var date = new Date().getTime()
-    var values = [sessions, duration, price, extra, need, date]
-	var sql = "INSERT INTO forms (session_no,duration,need_price,extra_fees,need_id,last_updated) values (?,?,?,?,?,?)";
+    var values = [sessions, duration, price, extra, need, date,user]
+	var sql = "INSERT INTO forms (session_no,duration,need_price,extra_fees,need_id,last_updated,user_id) values (?,?,?,?,?,?,?)";
 	pool.query(sql,values,function(err,result){
 				if(err){
 			res.json({			
@@ -64,8 +65,8 @@ router.post('/form/approve',function(req,res){
                 message : err
             })
         } else {
-            var sql2 = "DELETE FROM forms WHERE need_id=? and flag=0"
-           pool.query(sql2,[need],function(err,result2){
+            var sql2 = "DELETE FROM need_schedule WHERE need_id=? and NOT IN (?)"
+           pool.query(sql2,[need_id,schedule],function(err,result2){
                 if(err){
                     res.json({
                         status : false,
@@ -73,8 +74,8 @@ router.post('/form/approve',function(req,res){
                         message : err
                     })
                 } else {
-                    var sql3 = "DELETE FROM need_schedule WHERE need_id=? and NOT IN (?)"
-                    pool.query(sql3,[need_id,schedule],function(err,result3){
+                    var sql3 = "DELETE FROM forms WHERE need_id=? and flag=0"
+                    pool.query(sql3,[need],function(err,result3){
                         if(err){
                             res.json({
                                 status : false,

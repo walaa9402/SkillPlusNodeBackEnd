@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 01, 2019 at 12:05 AM
+-- Generation Time: Jun 07, 2019 at 04:29 PM
 -- Server version: 10.1.29-MariaDB
 -- PHP Version: 7.1.12
 
@@ -70,6 +70,7 @@ CREATE TABLE `forms` (
   `extra_fees` float NOT NULL,
   `need_id` int(11) NOT NULL,
   `last_updated` bigint(20) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `flag` int(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -77,8 +78,8 @@ CREATE TABLE `forms` (
 -- Dumping data for table `forms`
 --
 
-INSERT INTO `forms` (`form_id`, `session_no`, `duration`, `need_price`, `extra_fees`, `need_id`, `last_updated`, `flag`) VALUES
-(9, 4, 3.5, 150, 33.5, 1, 1559335338089, 0);
+INSERT INTO `forms` (`form_id`, `session_no`, `duration`, `need_price`, `extra_fees`, `need_id`, `last_updated`, `user_id`, `flag`) VALUES
+(9, 4, 3.5, 150, 33.5, 1, 1559335338089, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -129,7 +130,6 @@ INSERT INTO `needs` (`need_id`, `need_name`, `need_desc`, `need_photo`, `cat_id`
 --
 
 CREATE TABLE `need_schedule` (
-  `id` int(11) NOT NULL,
   `need_id` int(11) NOT NULL,
   `form_id` int(11) NOT NULL,
   `date` bigint(20) NOT NULL
@@ -139,10 +139,8 @@ CREATE TABLE `need_schedule` (
 -- Dumping data for table `need_schedule`
 --
 
-INSERT INTO `need_schedule` (`id`, `need_id`, `form_id`, `date`) VALUES
-(1, 1, 9, 1559320952275),
-(2, 1, 9, 1559320952275),
-(3, 1, 9, 1559320952275);
+INSERT INTO `need_schedule` (`need_id`, `form_id`, `date`) VALUES
+(1, 9, 1559320952275);
 
 -- --------------------------------------------------------
 
@@ -279,7 +277,7 @@ ALTER TABLE `needs`
 -- Indexes for table `need_schedule`
 --
 ALTER TABLE `need_schedule`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`need_id`,`form_id`,`date`),
   ADD KEY `form_id` (`form_id`),
   ADD KEY `need_id` (`need_id`);
 
@@ -339,12 +337,6 @@ ALTER TABLE `forms`
 --
 ALTER TABLE `needs`
   MODIFY `need_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `need_schedule`
---
-ALTER TABLE `need_schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `rate`
