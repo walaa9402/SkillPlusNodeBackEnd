@@ -69,6 +69,8 @@ router.post('/',function(req,res){
 					}
 					return element
 				})
+			}else {
+				var skills = []
 			}
 			var needsql = "SELECT *,(SELECT user_name FROM user where user_id=needs.user_id) as user_name FROM needs WHERE cat_id=? ORDER BY adding_date DESC";		
 			pool.query(needsql,[categoryId],function(err,result){
@@ -105,7 +107,7 @@ router.post('/add/skill',function(req,res){
 	var user_id=req.body.user_id
 	var cat_id=req.body.cat_id
 	var schedule = req.body.schedule
-	var date = new Data().getTime()
+	var date = new Date().getTime()
 	var values = [name, desc, session_no, price, pic, duration, extra, user_id, cat_id,date]
 	var sql = "insert into skill (skill_name,skill_desc,session_no,skill_price,photo_path,duration,extra_fees,user_id,cat_id,adding_date) values(?,?,?,?,?,?,?,?,?,?)";
 	pool.query(sql,values,function(err,result){
