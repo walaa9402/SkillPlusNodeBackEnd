@@ -50,7 +50,7 @@ router.get('/name',function(req,res){
 });
 router.post('/',function(req,res){
 	var categoryId = req.body.id
-	var sql = "SELECT *, (SELECT AVG(value) FROM rate where skill_id=skill.skill_id) as rate,(SELECT user_name FROM user where user_id=skill.user_id) as user_name, (SELECT GROUP_CONCAT(date) FROM skill_schedule where skill_id=skill.skill_id) as schedule FROM skill WHERE cat_id=? ORDER BY adding_date DESC";
+	var sql = "SELECT *, (SELECT AVG(value) FROM rate where skill_id=skill.skill_id) as rate,(SELECT user_name FROM user where user_id=skill.user_id) as user_name, (SELECT GROUP_CONCAT(date) FROM skill_schedule where skill_id=skill.skill_id and learner_id IS NULL) as schedule FROM skill WHERE cat_id=? ORDER BY adding_date DESC";
 	pool.query(sql,[categoryId],function(err,result){
 				if(err){
 			res.json({			
