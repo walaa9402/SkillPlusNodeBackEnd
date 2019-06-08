@@ -153,7 +153,7 @@ router.post('/add/need',function(req,res){
 	var user_id=req.body.user_id
 	var date =new Date().getTime()
 	var values = [name, desc, pic, cat_id, user_id, date]
-	var sql = "insert into need (need_name,need_desc,need_photo,cat_id,user_id,adding_date) values(?,?,?,?,?,?)";
+	var sql = "insert into needs (need_name,need_desc,need_photo,cat_id,user_id,adding_date) values(?,?,?,?,?,?)";
 	pool.query(sql,values,function(err,result){
 				if(err){
 			res.json({			
