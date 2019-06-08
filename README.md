@@ -29,8 +29,8 @@ usage : for home screen
 return : all categories with its info
 ********************************************
 2] /category
-method : get
-variables in query : id
+method : post
+variables in body : id
 usage : for specific category
 return : all skills and need for this category
 ********************************************
@@ -41,26 +41,26 @@ usage : for dropdown in adding skill or need from sidemenu
 return : all skills and need for this category
 ********************************************
 4] /category/add/skill
-method : get
-variables in query : name, desc, session_no, price, pic, duration, extra, user_id, cat_id, schedule (array)
+method : post
+variables in body : name, desc, session_no, price, pic, duration, extra, user_id, cat_id, schedule (array)
 usage : add skill from timeline or sidemenu
 return : success message
 ********************************************
 5] /category/add/need
-method : get
-variables in query : name, desc, pic, cat_id, user_id
+method : post
+variables in body : name, desc, pic, cat_id, user_id
 usage : add need from timeline or sidemenu
 return : success message
 ********************************************
 6] /category/favorite
-method : get
-variables in query : user_id
+method : post
+variables in body : user_id
 usage : in favorite
 return : all user favorite skills
 ********************************************
 7] /category/favorite/update
-method : get
-variables in query : user_id,skill_id
+method : post
+variables in body : user_id,skill_id
 usage : add or remove from favorite
 return : status message
 ********************************************
