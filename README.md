@@ -42,13 +42,13 @@ return : all skills and need for this category
 ********************************************
 4] /category/add/skill
 method : post
-variables in body : name, desc, session_no, price, pic, duration, extra, user_id, cat_id, schedule (array)
+variables in body : skill_name, skill_desc, session_no, skill_price, photo_path, duration, extra_fees, user_id, cat_id, schedule (array)
 usage : add skill from timeline or sidemenu
 return : success message
 ********************************************
 5] /category/add/need
 method : post
-variables in body : name, desc, pic, cat_id, user_id
+variables in body : need_name, need_desc, need_photo, cat_id, user_id
 usage : add need from timeline or sidemenu
 return : success message
 ********************************************

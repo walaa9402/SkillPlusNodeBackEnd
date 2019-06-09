@@ -100,13 +100,13 @@ router.post('/',function(req,res){
 	});
 });
 router.post('/add/skill',function(req,res){
-	var name=req.body.name
-	var desc=req.body.desc
+	var name=req.body.skill_name
+	var desc=req.body.skill_desc
 	var session_no=req.body.session_no
-	var price=req.body.price
+	var price=req.body.skill_price
 	var duration=req.body.duration
-	var pic=req.body.pic
-	var extra=req.body.extra
+	var pic=req.body.photo_path
+	var extra=req.body.extra_fees
 	var user_id=req.body.user_id
 	var cat_id=req.body.cat_id
 	var schedule = req.body.schedule
@@ -151,9 +151,9 @@ router.post('/add/skill',function(req,res){
 	});
 });
 router.post('/add/need',function(req,res){
-	var name=req.body.name
-	var desc=req.body.desc
-	var pic=req.body.pic
+	var name=req.body.need_name
+	var desc=req.body.need_desc
+	var pic=req.body.need_photo
 	var cat_id=req.body.cat_id
 	var user_id=req.body.user_id
 	var date =new Date().getTime()
