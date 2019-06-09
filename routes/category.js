@@ -64,6 +64,9 @@ router.post('/',function(req,res){
 					if(element["schedule"]){
 						element["schedule"]=element["schedule"].split(",")
 					}
+					if(!element["schedule"]){
+						element["schedule"]=[]
+					}
 					if(!element["rate"]){
 						element["rate"]=0
 					}
