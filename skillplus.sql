@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 07, 2019 at 04:29 PM
+-- Generation Time: Jun 09, 2019 at 04:56 PM
 -- Server version: 10.1.29-MariaDB
 -- PHP Version: 7.1.12
 
@@ -79,7 +79,7 @@ CREATE TABLE `forms` (
 --
 
 INSERT INTO `forms` (`form_id`, `session_no`, `duration`, `need_price`, `extra_fees`, `need_id`, `last_updated`, `user_id`, `flag`) VALUES
-(9, 4, 3.5, 150, 33.5, 1, 1559335338089, 2, 0);
+(9, 4, 3.5, 150, 33.5, 1, 1559320952275, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -98,7 +98,7 @@ CREATE TABLE `learner` (
 --
 
 INSERT INTO `learner` (`skill_id`, `learner_id`, `sessions`) VALUES
-(1, 8, 0);
+(1, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -179,8 +179,8 @@ CREATE TABLE `skill` (
 --
 
 INSERT INTO `skill` (`skill_id`, `skill_name`, `skill_desc`, `session_no`, `skill_price`, `photo_path`, `duration`, `extra_fees`, `user_id`, `cat_id`, `adding_date`) VALUES
-(1, 'painting', 'plaaaaaaaaaaaaaaaaaaa', 3, 500, 'path1', 2.5, 40, 1, 2, 20190526142416),
-(2, 'gaming', 'gaaaaaaaaaaaaaaaaaaaaaaame', 5, 1000, 'path2', 4, 150, 1, 1, 20190526155727);
+(1, 'painting', 'plaaaaaaaaaaaaaaaaaaa', 3, 500, 'path1', 2.5, 40, 2, 2, 20190526142416),
+(2, 'gaming', 'gaaaaaaaaaaaaaaaaaaaaaaame', 5, 1000, 'path2', 4, 150, 2, 1, 20190526155727);
 
 -- --------------------------------------------------------
 
@@ -201,8 +201,8 @@ CREATE TABLE `skill_schedule` (
 --
 
 INSERT INTO `skill_schedule` (`id`, `skill_id`, `date`, `learner_id`, `last_updated`) VALUES
-(1, 1, 20190528093013, 8, 1559320952275),
-(2, 1, 20190530132926, 8, 1559320952275),
+(1, 1, 20190528093013, 2, 1559320952275),
+(2, 1, 20190530132926, 2, 1559320952275),
 (3, 2, 20190527100000, 0, 0),
 (4, 2, 20190531102515, 0, 0);
 
