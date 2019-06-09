@@ -55,7 +55,7 @@ router.post('/',function(req,res){
               return element;
             })
           }
-          var sql3="SELECT u.*,n.need_name,(SELECT GROUP_CONCAT(date) FROM need_schedule where need_id=n.need_id and form_id=f.form_id) as schedule FROM user u INNER JOIN forms f ON u.user_id=f.user_id INNER JOIN needs n ON f.need_id=n.need_id where f.last_updated>date and flag=1 and f.user_id=?";
+          var sql3="SELECT u.*,n.need_name,(SELECT GROUP_CONCAT(date) FROM need_schedule where need_id=n.need_id and form_id=f.form_id) as schedule FROM user u INNER JOIN forms f ON u.user_id=f.user_id INNER JOIN needs n ON f.need_id=n.need_id where f.last_updated>? and flag=1 and f.user_id=?";
           pool.query(sql3,[date,user],function(err,accept){
             if(err){
               res.json({			
