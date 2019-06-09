@@ -18,7 +18,16 @@ router.post('/',function(req,res){
 		}else{
 			if(apply.length>0){
         apply=apply.map(function(element){
-          element["schedule"] = element["schedule"].split(",")
+          if(element["schedule"]){
+						if(element["schedule"].indexOf(",")>0){
+						element["schedule"]=[element["schedule"]]
+						} else{
+						element["schedule"] = element["schedule"].split(",")
+						}
+					}
+					if(!element["schedule"]){
+						element["schedule"]=[]
+					}
           return element
         })
       }
@@ -33,12 +42,21 @@ router.post('/',function(req,res){
         } else {
           if(forms.length>0){
             forms = forms.map(function(element){
-              element["schedule"]=element["schedule"].split(",")
+              if(element["schedule"]){
+                if(element["schedule"].indexOf(",")>0){
+                element["schedule"]=[element["schedule"]]
+                } else{
+                element["schedule"] = element["schedule"].split(",")
+                }
+              }
+              if(!element["schedule"]){
+                element["schedule"]=[]
+              }
               return element;
             })
           }
-          var sql3="SELECT u.*,n.need_name,(SELECT GROUP_CONCAT(date) FROM need_schedule where need_id=n.need_id and form_id=f.form_id) as schedule FROM user u INNER JOIN forms f ON u.user_id=f.user_id INNER JOIN needs n ON f.need_id=n.need_id";
-          pool.query(sql3,[user,user,date],function(err,accept){
+          var sql3="SELECT u.*,n.need_name,(SELECT GROUP_CONCAT(date) FROM need_schedule where need_id=n.need_id and form_id=f.form_id) as schedule FROM user u INNER JOIN forms f ON u.user_id=f.user_id INNER JOIN needs n ON f.need_id=n.need_id where f.last_updated>date and flag=1 and f.user_id=?";
+          pool.query(sql3,[date,user],function(err,accept){
             if(err){
               res.json({			
                 status : false,
@@ -48,7 +66,16 @@ router.post('/',function(req,res){
             }else{
               if(forms.length>0){
                 accept = accept.map(function(element){
-                  element["schedule"]=element["schedule"].split(",")
+                  if(element["schedule"]){
+                    if(element["schedule"].indexOf(",")>0){
+                    element["schedule"]=[element["schedule"]]
+                    } else{
+                    element["schedule"] = element["schedule"].split(",")
+                    }
+                  }
+                  if(!element["schedule"]){
+                    element["schedule"]=[]
+                  }
                   return element;
                 })
               }
