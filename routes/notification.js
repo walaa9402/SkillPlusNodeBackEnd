@@ -27,7 +27,11 @@ router.post('/',function(req,res){
 					}
 					if(!element["schedule"]){
 						element["schedule"]=[]
-					}
+          }
+          element["schedule"]=element["schedule"].map(function(element){
+						element=JSON.parse(element)
+						return element
+					})
           return element
         })
       }
@@ -52,6 +56,10 @@ router.post('/',function(req,res){
               if(!element["schedule"]){
                 element["schedule"]=[]
               }
+              element["schedule"]=element["schedule"].map(function(element){
+                element=JSON.parse(element)
+                return element
+              })
               return element;
             })
           }
@@ -76,6 +84,10 @@ router.post('/',function(req,res){
                   if(!element["schedule"]){
                     element["schedule"]=[]
                   }
+                  element["schedule"]=element["schedule"].map(function(element){
+                    element=JSON.parse(element)
+                    return element
+                  })
                   return element;
                 })
               }

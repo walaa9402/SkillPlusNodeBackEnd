@@ -74,6 +74,10 @@ router.post('/',function(req,res){
 					if(!element["rate"]){
 						element["rate"]=0
 					}
+					element["schedule"]=element["schedule"].map(function(element){
+						element=JSON.parse(element)
+						return element
+					})
 					return element
 				})
 			}else {
@@ -208,6 +212,10 @@ router.post('/favorite',function(req,res){
 					if(!element["rate"]){
 						element["rate"]=0
 					}
+					element["schedule"]=element["schedule"].map(function(element){
+						element=JSON.parse(element)
+						return element
+					})
 					return element
 				})
 			}
