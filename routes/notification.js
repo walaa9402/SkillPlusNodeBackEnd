@@ -19,7 +19,7 @@ router.post('/',function(req,res){
 			if(apply.length>0){
         apply=apply.map(function(element){
           if(element["schedule"]){
-						if(element["schedule"].indexOf(",")>0){
+						if(element["schedule"].indexOf(",")<0){
 						element["schedule"]=[element["schedule"]]
 						} else{
 						element["schedule"] = element["schedule"].split(",")
@@ -43,7 +43,7 @@ router.post('/',function(req,res){
           if(forms.length>0){
             forms = forms.map(function(element){
               if(element["schedule"]){
-                if(element["schedule"].indexOf(",")>0){
+                if(element["schedule"].indexOf(",")<0){
                 element["schedule"]=[element["schedule"]]
                 } else{
                 element["schedule"] = element["schedule"].split(",")
@@ -67,7 +67,7 @@ router.post('/',function(req,res){
               if(forms.length>0){
                 accept = accept.map(function(element){
                   if(element["schedule"]){
-                    if(element["schedule"].indexOf(",")>0){
+                    if(element["schedule"].indexOf(",")<0){
                     element["schedule"]=[element["schedule"]]
                     } else{
                     element["schedule"] = element["schedule"].split(",")

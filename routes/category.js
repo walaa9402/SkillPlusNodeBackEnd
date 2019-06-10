@@ -62,7 +62,7 @@ router.post('/',function(req,res){
 			if(result.length>0){
 				var skills = result.map(function(element){
 					if(element["schedule"]){
-						if(element["schedule"].indexOf(",")>0){
+						if(element["schedule"].indexOf(",")<0){
 						element["schedule"]=[element["schedule"]]
 						} else{
 						element["schedule"] = element["schedule"].split(",")
@@ -196,7 +196,7 @@ router.post('/favorite',function(req,res){
 			if(result.length>0){
 				var result = result.map(function(element){
 					if(element["schedule"]){
-						if(element["schedule"].indexOf(",")>0){
+						if(element["schedule"].indexOf(",")<0){
 						element["schedule"]=[element["schedule"]]
 						} else{
 						element["schedule"] = element["schedule"].split(",")
