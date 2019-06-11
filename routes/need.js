@@ -96,7 +96,7 @@ router.post('/form/approve',function(req,res){
     })
 });
 router.post('/mine',function(req,res){
-    var user = req.body.user_id
+    var user = req.body.id
     var sql = "SELECT * FROM needs where user_id=?"
     pool.query(sql,[user],function(err,result1){
         if(err){

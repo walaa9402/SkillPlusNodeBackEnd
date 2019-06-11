@@ -106,7 +106,7 @@ return : all learners details of this skill
 ********************************************
 7] /need/mine
 method : post
-variables in body : user_id
+variables in body : id
 usage : my needs in side menu
 return : all user needs 
 ********************************************
