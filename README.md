@@ -92,3 +92,9 @@ variables in body : user,date
 usage : notifications
 return : apply skill users & apply form users 
 ********************************************
+5] /skill/mine
+method : post
+variables in body : id
+usage : my skills in side menu
+return : all user skills with every skill schedule
+********************************************

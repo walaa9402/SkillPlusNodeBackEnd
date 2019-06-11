@@ -46,4 +46,43 @@ router.post('/apply',function(req,res){
 		
 	});
 });
+router.post('/mine',function(req,res){
+    var user = req.body.id
+	var sql = "SELECT *,(SELECT GROUP_CONCAT(date) FROM skill_schedule where skill_id=skill.skill_id) as schedule FROM skill where user_id=?";
+	pool.query(sql,[user],function(err,result){
+        if(err){
+            res.json({			
+                status : false,
+                skills : null,
+                message : err				
+            });			
+        }else{
+            if(result.length>0){
+				result = result.map(function(element){
+					if(element["schedule"]){
+						if(element["schedule"].indexOf(",")<0){
+						element["schedule"]=[element["schedule"]]
+						} else{
+						element["schedule"] = element["schedule"].split(",")
+						}
+					}
+					if(!element["schedule"]){
+						element["schedule"]=[]
+					}
+					element["schedule"]=element["schedule"].map(function(element){
+						element=JSON.parse(element)
+						return element
+					})
+					return element
+				})
+			}
+            res.json({		
+                status : true,
+                skills : result,
+                message : "done"			
+            });
+        }
+    })
+
+});
 module.exports = router;
