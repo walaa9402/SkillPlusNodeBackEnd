@@ -95,4 +95,61 @@ router.post('/form/approve',function(req,res){
         }
     })
 });
+router.post('/mine',function(req,res){
+    var user = req.body.user_id
+    var sql = "SELECT * FROM needs where user_id=?"
+    pool.query(sql,[user],function(err,result1){
+        if(err){
+            res.json({
+                status : false,
+                sqlresponse : null,
+                message : err
+            })
+        } else {
+            res.json({
+                status : true,
+                sqlresponse : result1,
+                message : "done"
+            }) 
+        }
+    })
+});
+router.post('/forms',function(req,res){
+    var need = req.body.need_id
+    var sql = "SELECT u.*,f.*,(SELECT GROUP_CONCAT(date) from skill_schedule where form_id=f.form_id) as schedule FROM user u INNER JOIN forms f ON u.user_id=f.user_id "
+    pool.query(sql,[need],function(err,result1){
+        if(err){
+            res.json({
+                status : false,
+                sqlresponse : null,
+                message : err
+            })
+        } else {
+            if(result1.length>0){
+				result1 = result1.map(function(element){
+					if(element["schedule"]){
+						if(element["schedule"].indexOf(",")<0){
+						element["schedule"]=[element["schedule"]]
+						} else{
+						element["schedule"] = element["schedule"].split(",")
+						}
+					}
+					if(!element["schedule"]){
+						element["schedule"]=[]
+					}
+					element["schedule"]=element["schedule"].map(function(element){
+						element=JSON.parse(element)
+						return element
+					})
+					return element
+				})
+			}
+            res.json({
+                status : true,
+                sqlresponse : result1,
+                message : "done"
+            }) 
+        }
+    })
+});
 module.exports = router;

@@ -30,7 +30,7 @@ return : all categories with its info
 ********************************************
 2] /category
 method : post
-variables in body : id
+variables in body : id(of category),user (user id)
 usage : for specific category
 return : all skills and need for this category
 ********************************************
@@ -97,4 +97,22 @@ method : post
 variables in body : id
 usage : my skills in side menu
 return : all user skills with every skill schedule
+********************************************
+6] /skill/learners
+method : post
+variables in body : skill_id
+usage : skill details
+return : all learners details of this skill
+********************************************
+7] /need/mine
+method : post
+variables in body : user_id
+usage : my needs in side menu
+return : all user needs 
+********************************************
+8] /need/forms
+method : post
+variables in body : need_id
+usage : my needs in side menu
+return : all need forms and their users data
 ********************************************
