@@ -21,7 +21,7 @@ router.post('/form/add',function(req,res){
 				if(err){
 			res.json({			
 				status : false,
-				data : null,
+				sqlresponse : null,
 				message : err				
 			});			
 		}else{
@@ -34,13 +34,13 @@ router.post('/form/add',function(req,res){
                 if(err){
                     res.json({			
                         status : false,
-                        data : null,
+                        sqlresponse : null,
                         message : err
                     });
                 } else {
                     res.json({		
                         status : true,
-                        data : result,
+                        sqlresponse : result,
                         message : "form inserted with schedules"			
                     });
                 }
@@ -61,7 +61,7 @@ router.post('/form/approve',function(req,res){
         if(err){
             res.json({
                 status : false,
-                data : null,
+                sqlresponse : null,
                 message : err
             })
         } else {
@@ -70,7 +70,7 @@ router.post('/form/approve',function(req,res){
                 if(err){
                     res.json({
                         status : false,
-                        data : null,
+                        sqlresponse : null,
                         message : err
                     })
                 } else {
@@ -79,13 +79,13 @@ router.post('/form/approve',function(req,res){
                         if(err){
                             res.json({
                                 status : false,
-                                data : null,
+                                sqlresponse : null,
                                 message : err
                             })
                         } else {
                             res.json({
                                 status: true,
-                                data : {result1,result2,result3},
+                                sqlresponse : result3,
                                 message : "done"
                             })
                         }

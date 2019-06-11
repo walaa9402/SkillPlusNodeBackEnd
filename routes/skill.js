@@ -17,7 +17,7 @@ router.post('/apply',function(req,res){
 				if(err){
 			res.json({			
 				status : false,
-				data : null,
+				sqlresponse : null,
 				message : err				
 			});			
 		}else{
@@ -27,14 +27,14 @@ router.post('/apply',function(req,res){
 				if(err){
                     res.json({			
                         status : false,
-                        data : null,
+                        sqlresponse : null,
                         message : err				
                     });			
                 }else{
                     
                     res.json({		
                         status : true,
-                        data : [result1,result2],
+                        sqlresponse : result2,
                         message : "applyed"			
                     });		
                     
@@ -76,6 +76,26 @@ router.post('/mine',function(req,res){
 					return element
 				})
 			}
+            res.json({		
+                status : true,
+                skills : result,
+                message : "done"			
+            });
+        }
+    })
+
+});
+router.post('/learners',function(req,res){
+    var skill = req.body.skill_id
+	var sql = "SELECT * FROM user where user_id=(SELECT DISTINCT learner_id from learner where skill_id=?)";
+	pool.query(sql,[skill],function(err,result){
+        if(err){
+            res.json({			
+                status : false,
+                sqlresponse : null,
+                message : err				
+            });			
+        }else{
             res.json({		
                 status : true,
                 skills : result,

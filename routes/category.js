@@ -125,7 +125,7 @@ router.post('/add/skill',function(req,res){
 				if(err){
 			res.json({			
 				status : false,
-				categoriesName : null,
+				sqlresponse : null,
 				message : err				
 			});			
 		}else{
@@ -139,14 +139,14 @@ router.post('/add/skill',function(req,res){
 				if(err){
 					res.json({			
 						status : false,
-						categoriesName : null,
+						sqlresponse : null,
 						message : err				
 					});			
 				}else{
 					
 					res.json({		
 						status : true,
-						categoriesName : result,
+						sqlresponse : result,
 						message : "skilladded"			
 					});		
 						
@@ -171,13 +171,13 @@ router.post('/add/need',function(req,res){
 				if(err){
 			res.json({			
 				status : false,
-				categoriesName : null,
+				sqlresponse : null,
 				message : err				
 			});			
 		}else{
 			res.json({		
 				status : true,
-				categoriesName : result,
+				sqlresponse : result,
 				message : "needadded"			
 			});		
 			 
@@ -245,16 +245,17 @@ router.post('/favorite/update',function(req,res){
 			if(result.length>0){
 				var values = [userId, skillId]
 				var sqlRemove = "DELETE FROM favorite WHERE user_id=? and skill_id=?";
-				pool.query(sqlRemove,values,function(err){
+				pool.query(sqlRemove,values,function(err,result){
 					if(err){
 						res.json({			
 							status : false,
-							data : null,
+							sqlresponse : null,
 							message : err				
 						});			
 					} else {
 						res.json({		
 							status : true,
+							sqlresponse : result,
 							message : " package deleted from favorite"			
 						});
 					}
@@ -266,12 +267,13 @@ router.post('/favorite/update',function(req,res){
 					if(err){
 						res.json({			
 							status : false,
-							data : null,
+							sqlresponse : null,
 							message : err				
 						});			
 					} else {
 						res.json({		
 							status : true,
+							sqlresponse : result,
 							message : " package added to favorite"			
 						});
 					}

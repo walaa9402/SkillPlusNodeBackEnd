@@ -12,7 +12,7 @@ router.get('/all',function(req,res){
 				if(err){
 			res.json({			
 				status : false,
-				allUsers : null,
+				sqlresponse : null,
 				message : err				
 			});			
 		}else{
@@ -36,7 +36,7 @@ router.post('/login',function(req,res){
 		if(err){
 			res.json({			
 				status : false,
-				login : {},
+				sqlresponse : {},
 				message : err				
 			});	
 		} else {
@@ -52,7 +52,7 @@ router.post('/login',function(req,res){
 				if(err){
 			res.json({			
 				status : false,
-				login : {},
+				sqlresponse : {},
 				message : err				
 			});			
 		}else{
@@ -79,7 +79,7 @@ router.post('/login',function(req,res){
 			}else{
 				res.json({			
 				status : false,
-				userlogined : {},
+				sqlresponse : {},
 				message : "wrong password"			
 			});	
 			}
@@ -102,14 +102,14 @@ router.post('/signup',function(req,res){
 		if(err){
 			res.json({			
 				status : false,
-				signup : null,
+				sqlresponse : null,
 				message : err				
 			});	
 		} else {
 			if(result.length>0){
 				res.json({			
 					status : false,
-					signup : null,
+					sqlresponse : null,
 					message : "email is exist"				
 				});
 			} else{
@@ -118,7 +118,7 @@ router.post('/signup',function(req,res){
 					if(err){
 						res.json({			
 							status : false,
-							signup : null,
+							sqlresponse : null,
 							message : err				
 						});			
 					}else{
@@ -127,7 +127,7 @@ router.post('/signup',function(req,res){
 							if(err){
 								res.json({			
 									status : false,
-									login : {},
+									sqlresponse : {},
 									message : err				
 								});			
 							}else{
