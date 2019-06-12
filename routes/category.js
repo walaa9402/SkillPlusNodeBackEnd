@@ -51,8 +51,8 @@ router.get('/name',function(req,res){
 router.post('/',function(req,res){
 	var categoryId = req.body.id
 	var user_id = req.body.user
-	var sql = "SELECT *, (SELECT AVG(value) FROM rate where skill_id=skill.skill_id) as rate,(SELECT user_name FROM user where user_id=skill.user_id) as user_name, (SELECT GROUP_CONCAT(date) FROM skill_schedule where skill_id=skill.skill_id and learner_id IS NULL) as schedule FROM skill WHERE cat_id=? and user_id!=? ORDER BY adding_date DESC";
-	pool.query(sql,[categoryId,user_id],function(err,result){
+	var sql = "SELECT *,(SELECT skill_id FROM favorite where skill_id=skill.skill_id and user_id=?) as is_favorite,(SELECT AVG(value) FROM rate where skill_id=skill.skill_id) as rate,(SELECT user_name FROM user where user_id=skill.user_id) as user_name, (SELECT GROUP_CONCAT(date) FROM skill_schedule where skill_id=skill.skill_id and learner_id IS NULL) as schedule FROM skill WHERE cat_id=? and user_id!=? ORDER BY adding_date DESC";
+	pool.query(sql,[user_id,categoryId,user_id],function(err,result){
 				if(err){
 			res.json({			
 				status : false,
@@ -74,6 +74,11 @@ router.post('/',function(req,res){
 					}
 					if(!element["rate"]){
 						element["rate"]=0
+					}
+					if(!element["is_favorite"]){
+						element["is_favorite"]=0
+					}else{
+						element["is_favorite"]=1
 					}
 					element["schedule"]=element["schedule"].map(function(element){
 						element=JSON.parse(element)
