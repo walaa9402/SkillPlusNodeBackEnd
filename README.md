@@ -100,7 +100,7 @@ return : all user skills with every skill schedule
 ********************************************
 6] /skill/learners
 method : post
-variables in body : skill_id
+variables in body : id
 usage : skill details
 return : all learners details of this skill
 ********************************************
@@ -112,7 +112,7 @@ return : all user needs
 ********************************************
 8] /need/forms
 method : post
-variables in body : need_id
+variables in body : id
 usage : my needs in side menu
 return : all need forms and their users data
 ********************************************

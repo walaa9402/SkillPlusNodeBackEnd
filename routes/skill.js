@@ -86,7 +86,7 @@ router.post('/mine',function(req,res){
 
 });
 router.post('/learners',function(req,res){
-    var skill = req.body.skill_id
+    var skill = req.body.id
 	var sql = "SELECT * FROM user where user_id=(SELECT DISTINCT learner_id from learner where skill_id=?)";
 	pool.query(sql,[skill],function(err,result){
         if(err){

@@ -115,8 +115,8 @@ router.post('/mine',function(req,res){
     })
 });
 router.post('/forms',function(req,res){
-    var need = req.body.need_id
-    var sql = "SELECT u.*,f.*,(SELECT GROUP_CONCAT(date) from skill_schedule where form_id=f.form_id) as schedule FROM user u INNER JOIN forms f ON u.user_id=f.user_id "
+    var need = req.body.id
+    var sql = "SELECT u.*,f.*,(SELECT GROUP_CONCAT(date) from need_schedule where form_id=f.form_id) as schedule FROM user u INNER JOIN forms f ON u.user_id=f.user_id where f.need_id=?"
     pool.query(sql,[need],function(err,result1){
         if(err){
             res.json({
