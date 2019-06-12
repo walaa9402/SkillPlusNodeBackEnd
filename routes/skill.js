@@ -48,7 +48,7 @@ router.post('/apply',function(req,res){
 });
 router.post('/mine',function(req,res){
     var user = req.body.id
-	var sql = "SELECT *,(SELECT GROUP_CONCAT(date) FROM skill_schedule where skill_id=skill.skill_id) as schedule FROM skill where user_id=?";
+	var sql = "SELECT *,(SELECT AVG(value) FROM rate where skill_id=skill.skill_id) as rate,(SELECT GROUP_CONCAT(date) FROM skill_schedule where skill_id=skill.skill_id) as schedule FROM skill where user_id=?";
 	pool.query(sql,[user],function(err,result){
         if(err){
             res.json({			
@@ -68,7 +68,10 @@ router.post('/mine',function(req,res){
 					}
 					if(!element["schedule"]){
 						element["schedule"]=[]
-					}
+                    }
+                    if(!element["rate"]){
+                        element["rate"]=0
+                    }
 					element["schedule"]=element["schedule"].map(function(element){
 						element=JSON.parse(element)
 						return element
