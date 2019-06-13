@@ -76,9 +76,9 @@ router.post('/',function(req,res){
 						element["rate"]=0
 					}
 					if(!element["is_favorite"]){
-						element["is_favorite"]=0
+						element["is_favorite"]=false
 					}else{
-						element["is_favorite"]=1
+						element["is_favorite"]=true
 					}
 					element["schedule"]=element["schedule"].map(function(element){
 						element=JSON.parse(element)
@@ -194,7 +194,7 @@ router.post('/add/need',function(req,res){
 
 router.post('/favorite',function(req,res){
 	var userId =req.body.user_id
-	var sql = "SELECT *, (SELECT AVG(value) FROM rate where skill_id=skill.skill_id) as rate,(SELECT user_name FROM user where user_id=skill.user_id) as user_name, (SELECT GROUP_CONCAT(date) FROM skill_schedule where skill_id=skill.skill_id) as schedule FROM skill WHERE skill_id=(SELECT skill_id FROM favorite WHERE user_id=?) ORDER BY adding_date DESC" ;
+	var sql = "SELECT *, (SELECT AVG(value) FROM rate where skill_id=skill.skill_id) as rate,(SELECT user_name FROM user where user_id=skill.user_id) as user_name, (SELECT GROUP_CONCAT(date) FROM skill_schedule where skill_id=skill.skill_id) as schedule FROM skill WHERE skill_id=(SELECT skill_id FROM favorite WHERE user_id=? and skill_id=skill.skill_id) ORDER BY adding_date DESC" ;
 	pool.query(sql,[userId],function(err,result){
 				if(err){
 			res.json({			
