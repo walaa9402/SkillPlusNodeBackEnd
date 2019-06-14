@@ -90,8 +90,8 @@ router.post('/mine',function(req,res){
 });
 router.post('/learners',function(req,res){
     var skill = req.body.id
-	var sql = "SELECT * FROM user where user_id=(SELECT DISTINCT learner_id from learner where skill_id=?)";
-	pool.query(sql,[skill],function(err,result){
+	var sql = "SELECT user_name,user_pic,(SELECT GROUP_CONCAT(date) FROM skill_schedule where skill_id=? and learner_id=user.user_id) as schedule FROM user where user_id=(SELECT DISTINCT learner_id from learner where skill_id=? and learner_id=user.user_id)";
+	pool.query(sql,[skill,skill],function(err,result){
         if(err){
             res.json({			
                 status : false,
@@ -99,6 +99,25 @@ router.post('/learners',function(req,res){
                 message : err				
             });			
         }else{
+            if(result.length>0){
+				result = result.map(function(element){
+					if(element["schedule"]){
+						if(element["schedule"].indexOf(",")<0){
+						element["schedule"]=[element["schedule"]]
+						} else{
+						element["schedule"] = element["schedule"].split(",")
+						}
+					}
+					if(!element["schedule"]){
+						element["schedule"]=[]
+                    }
+					element["schedule"]=element["schedule"].map(function(element){
+						element=JSON.parse(element)
+						return element
+					})
+					return element
+				})
+			}
             res.json({		
                 status : true,
                 skills : result,
