@@ -116,7 +116,7 @@ router.post('/mine',function(req,res){
 });
 router.post('/forms',function(req,res){
     var need = req.body.id
-    var sql = "SELECT u.*,f.*,(SELECT GROUP_CONCAT(date) from need_schedule where form_id=f.form_id) as schedule FROM user u INNER JOIN forms f ON u.user_id=f.user_id where f.need_id=?"
+    var sql = "SELECT u.user_name,u.user_pic,f.*,(SELECT GROUP_CONCAT(date) from need_schedule where form_id=f.form_id) as schedule FROM user u INNER JOIN forms f ON u.user_id=f.user_id where f.need_id=?"
     pool.query(sql,[need],function(err,result1){
         if(err){
             res.json({
@@ -151,5 +151,88 @@ router.post('/forms',function(req,res){
             }) 
         }
     })
+});
+router.post('/current/details',function(req,res){
+    var form = req.body.id
+	var sql = "SELECT *,(SELECT DISTINCT need_name FROM needs where need_id=forms.need_id) as need,(SELECT GROUP_CONCAT(date) FROM need_schedule where form_id=?) as schedule FROM forms where form_id=?";
+	pool.query(sql,[form,form],function(err,result){
+        if(err){
+            res.json({			
+                status : false,
+                sqlresponse : null,
+                message : err				
+            });			
+        }else{
+            if(result.length>0){
+				result = result.map(function(element){
+					if(element["schedule"]){
+						if(element["schedule"].indexOf(",")<0){
+						element["schedule"]=[element["schedule"]]
+						} else{
+						element["schedule"] = element["schedule"].split(",")
+						}
+					}
+					if(!element["schedule"]){
+						element["schedule"]=[]
+                    }
+					element["schedule"]=element["schedule"].map(function(element){
+						element=JSON.parse(element)
+						return element
+					})
+					return element
+				})
+			}
+            res.json({		
+                status : true,
+                skills : result,
+                message : "done"			
+            });
+        }
+    })
+
+});
+router.post('/current',function(req,res){
+    var user = req.body.id
+	var sql = "SELECT f.flag,n.need_name,n.need_photo,(SELECT GROUP_CONCAT(date) FROM need_schedule where form_id=f.form_id) as schedule FROM forms f INNER JOIN needs n ON f.need_id=n.need_id where f.user_id=?"
+	pool.query(sql,[user],function(err,result){
+        if(err){
+            res.json({			
+                status : false,
+                sqlresponse : null,
+                message : err				
+            });			
+        }else{
+            if(result.length>0){
+				result = result.map(function(element){
+					if(element["schedule"]){
+						if(element["schedule"].indexOf(",")<0){
+						element["schedule"]=[element["schedule"]]
+						} else{
+						element["schedule"] = element["schedule"].split(",")
+						}
+					}
+					if(!element["schedule"]){
+						element["schedule"]=[]
+                    }
+					element["schedule"]=element["schedule"].map(function(element){
+						element=JSON.parse(element)
+						return element
+                    })
+                    if(element["flag"]==0){
+                        element["flag"]=false
+                    }else{
+                        element["flag"]=true
+                    }
+					return element
+				})
+			}
+            res.json({		
+                status : true,
+                skills : result,
+                message : "done"			
+            });
+        }
+    })
+
 });
 module.exports = router;

@@ -116,3 +116,21 @@ variables in body : id
 usage : my needs in side menu
 return : all need forms and their users data
 ********************************************
+9] /skill/current
+method : post
+variables in body : id(user id)
+usage : current skills
+return : all skills that user applied on them with his on number of sessions
+********************************************
+10] /need/current
+method : post
+variables in body : id(user id)
+usage : current needs
+return : all needs that user applied on them with his schedules
+********************************************
+11] /need/current/details
+method : post
+variables in body : id(form id)
+usage : current needs details
+return : all form details with its schedules
+********************************************

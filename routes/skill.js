@@ -127,4 +127,43 @@ router.post('/learners',function(req,res){
     })
 
 });
+router.post('/current',function(req,res){
+    var user = req.body.id
+	var sql = "SELECT DISTINCT (SELECT GROUP_CONCAT(date) FROM skill_schedule where skill_id=sc.skill_id and learner_id=sc.learner_id) as schedule,s.*,(SELECT sessions FROM learner where learner_id=sc.learner_id and skill_id=sc.skill_id) as my_sessions FROM skill_schedule sc INNER JOIN skill s ON sc.skill_id=s.skill_id where sc.learner_id=?";
+	pool.query(sql,[user],function(err,result){
+        if(err){
+            res.json({			
+                status : false,
+                sqlresponse : null,
+                message : err				
+            });			
+        }else{
+            if(result.length>0){
+				result = result.map(function(element){
+					if(element["schedule"]){
+						if(element["schedule"].indexOf(",")<0){
+						element["schedule"]=[element["schedule"]]
+						} else{
+						element["schedule"] = element["schedule"].split(",")
+						}
+					}
+					if(!element["schedule"]){
+						element["schedule"]=[]
+                    }
+					element["schedule"]=element["schedule"].map(function(element){
+						element=JSON.parse(element)
+						return element
+					})
+					return element
+				})
+			}
+            res.json({		
+                status : true,
+                skills : result,
+                message : "done"			
+            });
+        }
+    })
+
+});
 module.exports = router;
