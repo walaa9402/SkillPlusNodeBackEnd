@@ -146,10 +146,15 @@ router.post('/signup',function(req,res){
 									o.password = result[0].user_password;
 									o.rate = -1;
 									o.pic = result[0].user_pic;
+									app.set('jwtTokenSecret', "skillpluss");
+									var token = jwt.encode({
+										iss: o.email
+									}, app.get('jwtTokenSecret'));
 									res.json({		
 										status : true,
 										user : o,
-										message : "user inserted"			
+										message : "user inserted",
+										token : token			
 									});		
 								}
 							}		
