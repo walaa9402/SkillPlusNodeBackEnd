@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
-
+var jwt = require('jwt-simple');
 var pool = require('../config/config');
+var app = express();
 
 router.get('/', function(req, res, next) {
   res.send('respond with a resource in users');
@@ -71,10 +72,15 @@ router.post('/login',function(req,res){
 				if(result[0].skills==0){
 					o.rate=-1
 				}
+				app.set('jwtTokenSecret', "skillpluss");
+				var token = jwt.encode({
+					iss: o.email
+				}, app.get('jwtTokenSecret'));
 				res.json({		
 					status : true,
 					userlogined : o,
-					message : "done"			
+					message : "done",
+					token:token			
 			});		
 			}else{
 				res.json({			

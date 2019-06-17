@@ -35,7 +35,7 @@ router.post('/',function(req,res){
           return element
         })
       }
-      var sql2 = "SELECT u.user_name,u.user_pic,n.need_name,n.need_id,f.form_id from need_schedule where need_id=n.need_id and form_id=f.form_id) as schedule FROM user u INNER JOIN forms f ON u.user_id=f.user_id INNER JOIN needs n ON f.need_id=n.need_id where f.last_updated>? and n.user_id=?";
+      var sql2 = "SELECT u.user_name,u.user_pic,n.need_name,n.need_id,f.form_id FROM user u INNER JOIN forms f ON u.user_id=f.user_id INNER JOIN needs n ON f.need_id=n.need_id where f.last_updated>? and n.user_id=?";
       pool.query(sql2,[date,user],function(err,forms){
         if(err){
           res.json({			
@@ -44,7 +44,6 @@ router.post('/',function(req,res){
             message : err				
           });			
         } else {
-          
           var sql3="SELECT u.user_name,u.user_pic,u.user_id,n.need_name,f.form_id,(SELECT GROUP_CONCAT(date) FROM need_schedule where form_id=f.form_id) as schedule FROM user u INNER JOIN needs n ON u.user_id=n.user_id INNER JOIN forms f ON n.need_id=f.need_id where f.last_updated>? and flag=1 and f.user_id=?";
           pool.query(sql3,[date,user],function(err,accept){
             if(err){
