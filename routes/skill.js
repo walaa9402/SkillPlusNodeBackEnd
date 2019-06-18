@@ -189,6 +189,7 @@ router.post('/sessionend',function(req,res){
                         message : err				
                     });	 
                 }else{
+                   if(result["affectedRows"]>0){
                     var sql = "DELETE FROM learner where learner_id=? and sessions=(SELECT session_no FROM skill where skill_id=learner.skill_id)"
                     pool.query(sql,[user],function(err,result){
                         if(err){
@@ -228,13 +229,20 @@ router.post('/sessionend',function(req,res){
                                 })
                             }else{
                                 res.json({		
-                                    status : true,
-                                    skills : result[0],
-                                    message : "end of skill"			
+                                    status : false,
+                                    sqlresponse : null,
+                                    message : err			
                                 });
                             }
                         }
                     })
+                   }else{
+                    res.json({		
+                        status : false,
+                        sqlresponse : null,
+                        message : err			
+                    });
+                   }
                 }
             })
             }else{
