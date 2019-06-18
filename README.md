@@ -140,3 +140,9 @@ variables in body : id,date
 usage : after session of skill ends
 return : true if last session false if still have sessions
 ********************************************
+13] /skill/rate
+method : post
+variables in body : id(skill id),rate
+usage : skill rate
+return : status message
+********************************************
