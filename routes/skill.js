@@ -235,4 +235,24 @@ router.post('/sessionend',function(req,res){
     })
 
 });
+router.post('/rate',function(req,res){
+    var skill = req.body.id
+    var rate = req.body.rate
+    var sql = "INSERT INTO rate (value,skill_id) values (?,?)"
+    pool.query(sql,[rate,skill],function(err,result){
+        if(err){
+            res.json({			
+                status : false,
+                sqlresponse : null,
+                message : err				
+            });
+        } else {
+            res.json({		
+                status : true,
+                data : result,
+                message : "rate inserted"			
+            });
+        }
+    })
+})
 module.exports = router;

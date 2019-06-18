@@ -134,7 +134,7 @@ variables in body : id(form id)
 usage : current needs details
 return : all form details with its schedules
 ********************************************
-12] /need/sessionend
+12] /skill/sessionend
 method : post
 variables in body : id,date
 usage : after session of skill ends
