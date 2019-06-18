@@ -166,4 +166,73 @@ router.post('/current',function(req,res){
     })
 
 });
+router.post('/sessionend',function(req,res){
+    var user = req.body.id
+    var date = req.body.date
+    var newDate = date+604800
+	var sql = "UPDATE skill_schedule SET date=? where learner_id=? and date=?";
+	pool.query(sql,[newDate,user,date],function(err,result){
+        if(err){
+            res.json({			
+                status : false,
+                sqlresponse : null,
+                message : err				
+            });			
+        }else{
+            var sql = "UPDATE learner SET sessions=sessions+1 where learner_id=? and skill_id=(SELECT DISTINCT skill_id FROM skill_schedule where learner_id=? and date=?)"
+            pool.query(sql,[user,user,newDate],function(err,result){
+                if(err){
+                    res.json({			
+                        status : false,
+                        sqlresponse : null,
+                        message : err				
+                    });	 
+                }else{
+                    var sql = "DELETE FROM learner where learner_id=? and sessions=(SELECT session_no FROM skill where skill_id=learner.skill_id)"
+                    pool.query(sql,[user],function(err,result){
+                        if(err){
+                            res.json({			
+                                status : false,
+                                sqlresponse : null,
+                                message : err				
+                            });	
+                        }else{
+                            if(result["affectedRows"]>0){
+                                var sql = "UPDATE skill_schedule SET learner_id=NULL where learner_id=? and date=?"
+                                pool.query(sql,[user,newDate],function(err,result){
+                                    if(err){
+                                        res.json({			
+                                            status : false,
+                                            sqlresponse : null,
+                                            message : err				
+                                        });	
+                                    } else {
+                                        var sql = "SELECT skill_id FROM skill_schedule where learner_id=? and date=?"
+                                        pool.query(sql,[user,newDate],function(err,result){
+                                            if(err){
+                                                res.json({			
+                                                    status : false,
+                                                    sqlresponse : null,
+                                                    message : err				
+                                                });	
+                                            } else {
+                                                res.json({		
+                                                    status : true,
+                                                    skills : result[0],
+                                                    message : "end of skill"			
+                                                });
+                                            } 
+                                        })
+                                    }
+                                })
+                            }
+                        }
+                    })
+                }
+            })
+            
+        }
+    })
+
+});
 module.exports = router;

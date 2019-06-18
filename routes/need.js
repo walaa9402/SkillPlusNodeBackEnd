@@ -184,7 +184,7 @@ router.post('/current/details',function(req,res){
 			}
             res.json({		
                 status : true,
-                skills : result,
+                data : result[0],
                 message : "done"			
             });
         }
@@ -228,7 +228,7 @@ router.post('/current',function(req,res){
 			}
             res.json({		
                 status : true,
-                skills : result,
+                data : result,
                 message : "done"			
             });
         }
