@@ -169,7 +169,7 @@ router.post('/current',function(req,res){
 router.post('/sessionend',function(req,res){
     var user = req.body.id
     var date = req.body.date
-    var newDate = date+604800
+    var newDate = date+ 604800*1000
 	var sql = "UPDATE skill_schedule SET date=? where learner_id=? and date=?";
 	pool.query(sql,[newDate,user,date],function(err,result){
         if(err){
@@ -179,7 +179,8 @@ router.post('/sessionend',function(req,res){
                 message : err				
             });			
         }else{
-            var sql = "UPDATE learner SET sessions=sessions+1 where learner_id=? and skill_id=(SELECT DISTINCT skill_id FROM skill_schedule where learner_id=? and date=?)"
+            if(result["affectedRows"]>0){
+                var sql = "UPDATE learner SET sessions=sessions+1 where learner_id=? and skill_id=(SELECT DISTINCT skill_id FROM skill_schedule where learner_id=? and date=?)"
             pool.query(sql,[user,user,newDate],function(err,result){
                 if(err){
                     res.json({			
@@ -225,11 +226,24 @@ router.post('/sessionend',function(req,res){
                                         })
                                     }
                                 })
+                            }else{
+                                res.json({		
+                                    status : true,
+                                    skills : result[0],
+                                    message : "end of skill"			
+                                });
                             }
                         }
                     })
                 }
             })
+            }else{
+                res.json({		
+                    status : false,
+                    sqlresponse : null,
+                    message : err			
+                });
+            }
             
         }
     })
