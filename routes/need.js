@@ -65,8 +65,8 @@ router.post('/form/approve',function(req,res){
                 message : err
             })
         } else {
-            var sql2 = "DELETE FROM need_schedule WHERE need_id=? and NOT IN (?)"
-           pool.query(sql2,[need_id,schedule],function(err,result2){
+            var sql2 = "DELETE FROM need_schedule WHERE need_id=? and date NOT IN (?)"
+           pool.query(sql2,[need,schedule],function(err,result2){
                 if(err){
                     res.json({
                         status : false,
