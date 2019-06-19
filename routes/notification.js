@@ -53,7 +53,7 @@ router.post('/',function(req,res){
                 message : err				
               });	
             }else{
-              if(forms.length>0){
+              if(accept.length>0){
                 accept = accept.map(function(element){
                   if(element["schedule"]){
                     if(element["schedule"].indexOf(",")<0){
