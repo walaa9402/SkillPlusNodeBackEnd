@@ -170,7 +170,8 @@ router.post('/sessionend',function(req,res){
     var user = req.body.id
     var date = req.body.date
     var newDate = date+ 604800*1000
-	var sql = "UPDATE skill_schedule SET date=? where learner_id=? and date=?";
+    var sql = "UPDATE skill_schedule SET date=? where learner_id=? and date=?";
+    var returnedId;
 	pool.query(sql,[newDate,user,date],function(err,result){
         if(err){
             res.json({			
@@ -200,7 +201,7 @@ router.post('/sessionend',function(req,res){
                             });	
                         }else{
                             if(result["affectedRows"]>0){
-                                var sql = "UPDATE skill_schedule SET learner_id=NULL where learner_id=? and date=?"
+                                var sql = "SELECT skill_id FROM skill_schedule where learner_id=? and date=?"
                                 pool.query(sql,[user,newDate],function(err,result){
                                     if(err){
                                         res.json({			
@@ -209,7 +210,8 @@ router.post('/sessionend',function(req,res){
                                             message : err				
                                         });	
                                     } else {
-                                        var sql = "SELECT skill_id FROM skill_schedule where learner_id=? and date=?"
+                                        returnedId = result[0]["skill_id"];
+                                        var sql = "UPDATE skill_schedule SET learner_id=NULL where learner_id=? and date=?"
                                         pool.query(sql,[user,newDate],function(err,result){
                                             if(err){
                                                 res.json({			
@@ -220,7 +222,7 @@ router.post('/sessionend',function(req,res){
                                             } else {
                                                 res.json({		
                                                     status : true,
-                                                    skills : result[0],
+                                                    skill_id : returnedId,
                                                     message : "end of skill"			
                                                 });
                                             } 
